@@ -1,0 +1,53 @@
+name: Deploy Backend to Raspberry Pi
+
+on:
+  # push:
+  #   branches: [ main ]
+  #   paths:
+  #     - 'backend/**'
+  #     - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-backend:
+    name: Deploy Backend to Raspberry Pi
+    runs-on: self-hosted
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        run: |
+          sudo pip3 install websockets adafruit-circuitpython-neopixel rpi_ws281x
+      
+      - name: Setup service
+        run: |
+          sudo cp backend/server.py /opt/pi-remote-control/server.py
+          sudo chmod +x /opt/pi-remote-control/server.py
+          
+          # Create or update systemd service file
+          sudo tee /etc/systemd/system/pi-remote-led-server.service > /dev/null << EOT
+          [Unit]
+          Description=NeoPixel LED Controller WebSocket Server
+          After=network.target
+          
+          [Service]
+          ExecStart=/usr/bin/python3 /opt/pi-remote-control/server.py
+          WorkingDirectory=/opt/pi-remote-control
+          StandardOutput=inherit
+          StandardError=inherit
+          Restart=always
+          User=root
+          
+          [Install]
+          WantedBy=multi-user.target
+          EOT
+          
+          # Reload systemd, enable and restart service
+          sudo systemctl daemon-reload
+          sudo systemctl enable pi-remote-led-server.service
+          sudo systemctl restart pi-remote-led-server.service
+          
+          # Check service status
+          sudo systemctl status pi-remote-led-server.service

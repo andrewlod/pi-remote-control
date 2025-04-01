@@ -1,0 +1,75 @@
+.App {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.App-header {
+  margin-bottom: 30px;
+}
+
+h1 {
+  color: #333;
+}
+
+.status-indicator {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.color-picker-container {
+  margin-bottom: 20px;
+}
+
+.color-preview {
+  width: 200px;
+  height: 100px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.color-values {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.color-values p {
+  margin: 5px 0;
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.message-log {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+  text-align: left;
+  min-height: 50px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the color picker responsive */
+@media (max-width: 600px) {
+  .color-picker-container {
+    width: 100%;
+  }
+  
+  .react-colorful {
+    width: 100% !important;
+  }
+}
