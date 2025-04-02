@@ -50,10 +50,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: frontend-build
-          path: /home/pi/frontend/build  # Adjust the path as needed
+          path: /tmp/pi-remote-control/frontend/build  # Adjust the path as needed
       
       - name: Deploy to Nginx
         run: |
           sudo rm -rf /var/www/html/*
-          sudo mv /home/pi/frontend/build/* /var/www/html/
+          sudo mv /tmp/pi-remote-control/frontend/build/* /var/www/html/
           sudo systemctl restart nginx
