@@ -103,7 +103,7 @@ async def handle_websocket(websocket):
 
 async def main():
     # Start WebSocket server
-    HOST = "0.0.0.0"  # Listen on all network interfaces
+    HOST = "::"  # Listen on all network interfaces
     PORT = 8765
     
     logger.info(f"Starting WebSocket server on {HOST}:{PORT}")
