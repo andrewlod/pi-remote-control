@@ -26,7 +26,7 @@ function App() {
   // Function to connect to the WebSocket server
   const connectToServer = useCallback(() => {
     // Replace with your Raspberry Pi's IP address
-    const serverAddress = 'ws://localhost:8765';
+    const serverAddress = 'ws://raspberrypi.local:8765';
     
     // If already connected or connecting, use existing socket
     if (globalWebSocket && (globalWebSocket.readyState === WebSocket.OPEN || 

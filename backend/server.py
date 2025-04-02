@@ -2,8 +2,8 @@ import asyncio
 import json
 import logging
 from websockets.server import serve
-# import board
-# import neopixel
+import board
+import neopixel
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -11,16 +11,16 @@ logger = logging.getLogger(__name__)
 
 # NeoPixel LED strip configuration
 LED_COUNT = 30  # Number of LED pixels (adjust to your strip)
-#LED_PIN = board.D18  # GPIO pin connected to the pixels (adjust if needed)
+LED_PIN = board.D18  # GPIO pin connected to the pixels (adjust if needed)
 LED_BRIGHTNESS = 0.5  # Set to 0 for darkest and 1 for brightest
 
 # Initialize the LED strip
-# pixels = neopixel.NeoPixel(
-#     LED_PIN, 
-#     LED_COUNT, 
-#     brightness=LED_BRIGHTNESS, 
-#     auto_write=False
-# )
+pixels = neopixel.NeoPixel(
+    LED_PIN, 
+    LED_COUNT, 
+    brightness=LED_BRIGHTNESS, 
+    auto_write=False
+)
 
 # Rate limiting variables
 UPDATE_INTERVAL = 0.1  # Update LEDs at most every 0.1 seconds
@@ -45,8 +45,8 @@ async def update_leds_task():
         # Check if there's a pending update
         if pending_update is not None:
             r, g, b = pending_update
-            # pixels.fill((r, g, b))
-            # pixels.show()
+            pixels.fill((r, g, b))
+            pixels.show()
             logger.info(f"Rate-limited update: LEDs set to RGB: ({r}, {g}, {b})")
             pending_update = None
 
@@ -115,8 +115,8 @@ async def main():
     finally:
         # Always ensure LEDs are turned off when the server shuts down
         logger.info("Turning off all LEDs")
-        # pixels.fill((0, 0, 0))
-        # pixels.show()
+        pixels.fill((0, 0, 0))
+        pixels.show()
         
         # Cancel the update task if it's running
         global update_task
@@ -133,5 +133,5 @@ if __name__ == "__main__":
     finally:
         # Ensure LEDs are turned off no matter how the program exits
         logger.info("Turning off LEDs")
-        # pixels.fill((0, 0, 0))
-        # pixels.show()
+        pixels.fill((0, 0, 0))
+        pixels.show()
