@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy Frontend
-    runs-on: ubuntu-latest
-    
+  build:
+    name: Build Frontend
+    runs-on: ubuntu-latest  # Use GitHub-hosted runner
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '20'
           cache: 'npm'
           cache-dependency-path: 'frontend/package-lock.json'
       
@@ -39,3 +39,21 @@ jobs:
         with:
           name: frontend-build
           path: frontend/build
+
+  deploy:
+    name: Deploy to Raspberry Pi
+    needs: build  # Runs only after the build job succeeds
+    runs-on: self-hosted  # This runs on your Raspberry Pi
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-build
+          path: /home/pi/frontend/build  # Adjust the path as needed
+      
+      - name: Deploy to Nginx
+        run: |
+          sudo rm -rf /var/www/html/*
+          sudo mv /home/pi/frontend/build/* /var/www/html/
+          sudo systemctl restart nginx
