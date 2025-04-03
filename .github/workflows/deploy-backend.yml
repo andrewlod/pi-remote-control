@@ -1,11 +1,11 @@
 name: Deploy Backend to Raspberry Pi
 
 on:
-  # push:
-  #   branches: [ main ]
-  #   paths:
-  #     - 'backend/**'
-  #     - '.github/workflows/deploy-backend.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
 
 jobs:

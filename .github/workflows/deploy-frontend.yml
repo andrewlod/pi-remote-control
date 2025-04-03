@@ -1,11 +1,11 @@
 name: Deploy Frontend to Raspberry Pi
 
 on:
-  # push:
-  #   branches: [ main ]
-  #   paths:
-  #     - 'frontend/**'
-  #     - '.github/workflows/deploy-frontend.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
 
 jobs:
